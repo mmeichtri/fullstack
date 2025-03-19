@@ -29,8 +29,6 @@ async def get_data():
 
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail="El archivo data.json no fue encontrado.")
-    except json.JSONDecodeError:
-        raise HTTPException(status_code=400, detail="Error al decodificar JSON. Verifique el formato del archivo.")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error inesperado: {str(e)}")
 
