@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pathlib import Path
 import json
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,13 +18,21 @@ DATA_FILE = Path(__file__).resolve().parent.parent / "data.json"
 
 @app.get("/data")
 async def get_data():
-    with open(DATA_FILE, "r", encoding="utf-8") as file:
-        data = json.load(file)
-    
-    if not data:
-        print("El archivo no es valido")
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as file:
+            data = json.load(file)
 
-    return data
+        if not data:
+            raise HTTPException(status_code=400, detail="El archivo está vacío o no es válido.")
+
+        return data
+
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="El archivo data.json no fue encontrado.")
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=400, detail="Error al decodificar JSON. Verifique el formato del archivo.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error inesperado: {str(e)}")
 
 
 app.mount("/", StaticFiles(directory="/frontend/dist", html=True), name="frontend")
