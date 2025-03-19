@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my_app
+    ports:
+      - "8000:8000"
+      - "3000:3000"
+    volumes:
+      - ./data.json:/data.json
