@@ -4,5 +4,6 @@ __pycache__/
 .vscode/
 package-lock.json
 frontend/dist/
+frontend/.vscode/
 backend/__pycache__/
 frontend/.vscode
