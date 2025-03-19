@@ -3,8 +3,6 @@ WORKDIR /frontend
 COPY ./frontend . 
 RUN npm install && npm run build
 
-# multi stage build
-# just copy the compiled frontend into the backend server
 FROM python:3.12-slim-bookworm
 
 ENV PYTHONUNBUFFERED=1 \
